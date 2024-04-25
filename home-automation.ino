@@ -1,21 +1,27 @@
 //#include <SoftwareSerial.h>
 //#include <string.h>
 
+#include "mp3tf16p.h"
+
+// MP3Player mp3(6,5); // rx,tx
+
+int trig = 8;
+
 #define RX 2
 #define TX 1
 
-const int RED = 12;
-const int GREEN = 11;
-const int BLUE = 10;
+const int RED = 9;
+const int YELLOW = 10;
+const int BLUE = 11;
 
 String command = "";
 
 void on(int pin){
-  digitalWrite(pin, HIGH);
+  digitalWrite(pin, LOW);
 }
 
 void off(int pin){
-  digitalWrite(pin, LOW);
+  digitalWrite(pin, HIGH);
 }
 
 void flush(){
@@ -30,15 +36,20 @@ void serial_flush(void) {
 void setup() {
 
   pinMode(RED, OUTPUT);
-  pinMode(GREEN, OUTPUT);
+  pinMode(YELLOW, OUTPUT);
   pinMode(BLUE, OUTPUT);
 
-  digitalWrite(RED, LOW);
-  digitalWrite(GREEN, LOW);
-  digitalWrite(BLUE, LOW);
-
+  digitalWrite(RED, HIGH);
+  digitalWrite(YELLOW, HIGH);
+  digitalWrite(BLUE, HIGH);
 
   Serial.begin(9600);   
+
+//  mp3.initialize();
+//  mp3.playTrackNumber(1, 30);
+
+  pinMode(trig, OUTPUT);
+  digitalWrite(trig,HIGH);
 }
 
 void loop() {
@@ -49,36 +60,41 @@ void loop() {
   
 //    command = command + receivedChar;
     command = Serial.readString();
+    
     Serial.println(command);
 
-    if (command == "turn on red"){
+    if (command == "Turn on red" or command == "turn on red"){
       on(RED);
       flush();
-    } else if (command == "turn off red"){
+    } else if (command == "Turn off red" or command == "turn off red"){
       off(RED);
       flush();
 
-    } else if (command == "turn on blue"){
+    } else if (command == "Turn on blue" or command == "turn on blue"){
       on(BLUE);
       flush();
-    } else if (command == "turn off blue"){
+    } else if (command == "Turn off blue" or command == "turn off blue"){
       off(BLUE);
       flush();
 
-    } else if (command == "turn on green"){
-      on(GREEN);
+    } else if (command == "Turn on yellow" or command == "turn on yellow"){
+      on(YELLOW);
       flush();
-    } else if (command == "turn off green"){
-      off(GREEN);
+    } else if (command == "Turn off yellow" or command == "turn off yellow"){
+      off(YELLOW);
       flush();
-    } else if (command == "turn on all"){
+    } else if (command == "Turn on all" or command == "turn on all"){
       on(RED);
       on(BLUE);
-      on(GREEN);
-    } else if (command == "turn off all"){
+      on(YELLOW);
+    } else if (command == "Turn off all" or command == "turn off all"){
       off(RED);
       off(BLUE);
-      off(GREEN);
+      off(YELLOW);
+    } else if (command == "Play my song" or command == "play my song"){
+      on(trig);
+      delay(100);
+      off(trig);
     } else {
         flush();
         serial_flush();
