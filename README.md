@@ -6,5 +6,5 @@ It is advised that the user installs [Arduino IDE](https://www.arduino.cc/en/sof
 ## Cloning the Reopository
 Open your CLI and head to the folder where you want to save the files, then paste the followng command(s):
 ```
-git clone https://github.com/Nich0l3/Home-automation
+git clone https://github.com/lowkey-gh/Home-automation
 ```
